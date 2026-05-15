@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vegas Elvis Weddings - Las Vegas Wedding Chapel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 40px;
+            text-align: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            font-weight: 700;
+            color: #8b0000;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+        }
+
+        nav a {
+            color: #555;
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #8b0000;
+        }
+
+        /* Hero Section with Vegas Background */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), 
+                        url('./vegas-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 550px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 64px;
+            margin-bottom: 25px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            line-height: 1.2;
+            text-shadow: 3px 3px 12px rgba(0,0,0,0.9), 0 0 20px rgba(0,0,0,0.8);
+        }
+
+        .hero-content p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
+        }
+
+        .cta-button {
+            background: #8b0000;
+            color: white;
+            padding: 16px 45px;
+            text-decoration: none;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-radius: 2px;
+            display: inline-block;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .cta-button:hover {
+            background: #a00000;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(139, 0, 0, 0.3);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 80px 40px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            text-align: center;
+            font-size: 42px;
+            margin-bottom: 60px;
+            color: #8b0000;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        /* Packages Grid */
+        .packages {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .package-card {
+            background: white;
+            border: 1px solid #e5e5e5;
+            padding: 50px 40px;
+            text-align: center;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .package-card:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            transform: translateY(-5px);
+        }
+
+        .package-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 30px;
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: 400;
+        }
+
+        .package-price {
+            font-size: 48px;
+            color: #8b0000;
+            margin: 25px 0;
+            font-weight: 300;
+        }
+
+        .package-features {
+            text-align: left;
+            margin: 35px 0;
+            flex-grow: 1;
+        }
+
+        .package-features li {
+            padding: 12px 0;
+            border-bottom: 1px solid #f5f5f5;
+            list-style: none;
+            font-size: 15px;
+            color: #666;
+        }
+
+        .package-card .cta-button {
+            margin-top: auto;
+        }
+
+        /* Booking Form */
+        .booking-section {
+            background: #fafafa;
+            padding: 80px 0;
+        }
+
+        .form-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 60px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: #333;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            font-size: 15px;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s;
+            background: #fafafa;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #8b0000;
+            background: white;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            padding: 18px;
+            border: 1px solid #e5e5e5;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #fafafa;
+        }
+
+        .radio-option:hover {
+            border-color: #8b0000;
+            background: white;
+        }
+
+        .radio-option input {
+            margin-right: 15px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+
+        .radio-option label {
+            cursor: pointer;
+            text-transform: none;
+            margin: 0;
+        }
+
+        .radio-option.selected {
+            border-color: #8b0000;
+            background: white;
+            border-width: 2px;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 18px;
+            background: #8b0000;
+            color: white;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 30px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .submit-button:hover {
+            background: #a00000;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(139, 0, 0, 0.3);
+        }
+
+        .success-message {
+            display: none;
+            background: #2d5016;
+            color: white;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: #999;
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .footer-content p {
+            margin: 8px 0;
+            font-size: 14px;
+        }
+
+        .footer-content strong {
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .packages {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-content h1 {
+                font-size: 40px;
+            }
+
+            .logo {
+                font-size: 32px;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo">VEGAS ELVIS WEDDINGS</div>
+            <nav>
+                <a href="#packages">Packages</a>
+                <a href="#about">About</a>
+                <a href="#booking">Book Now</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Marry in Style with The King</h1>
+            <p>Authentic Elvis-Themed Wedding Ceremonies in Las Vegas</p>
+            <a href="#booking" class="cta-button">Book Your Wedding</a>
+        </div>
+    </section>
+
+    <!-- Packages Section -->
+    <section class="container" id="packages">
+        <h2 class="section-title">Wedding Packages</h2>
+        <div class="packages">
+            <div class="package-card">
+                <h3>Classic Quickie</h3>
+                <div class="package-price">$299</div>
+                <ul class="package-features">
+                    <li>15-minute ceremony</li>
+                    <li>Elvis impersonator officiant</li>
+                    <li>Marriage certificate filing</li>
+                    <li>Witness services</li>
+                    <li>Digital photos (10)</li>
+                </ul>
+                <a href="#booking" class="cta-button">Select Package</a>
+            </div>
+
+            <div class="package-card">
+                <h3>Deluxe Experience</h3>
+                <div class="package-price">$999</div>
+                <ul class="package-features">
+                    <li>30-minute ceremony</li>
+                    <li>Premium Elvis performer</li>
+                    <li>Live music performance</li>
+                    <li>Professional photography (50 photos)</li>
+                    <li>Video recording</li>
+                    <li>Champagne toast</li>
+                    <li>Bouquet & boutonniere</li>
+                </ul>
+                <a href="#booking" class="cta-button">Select Package</a>
+            </div>
+
+            <div class="package-card">
+                <h3>Corporate Events</h3>
+                <div class="package-price">$4,999</div>
+                <ul class="package-features">
+                    <li>Customizable event (2-4 hours)</li>
+                    <li>Multiple Elvis performers</li>
+                    <li>Full production team</li>
+                    <li>Corporate group accommodation</li>
+                    <li>Pink Cadillac photo opportunities</li>
+                    <li>Professional sound & lighting</li>
+                    <li>Dedicated event coordinator</li>
+                </ul>
+                <a href="#booking" class="cta-button">Contact Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Form Section -->
+    <section class="booking-section" id="booking">
+        <div class="container">
+            <h2 class="section-title">Book Your Experience</h2>
+            <div class="form-container">
+                <div id="successMessage" class="success-message">
+                    Thank you for your booking request! We'll contact you within 24 hours.
+                </div>
+
+                <form id="bookingForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Full Name *</label>
+                            <input type="text" name="name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email Address *</label>
+                            <input type="email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Phone Number *</label>
+                            <input type="tel" name="phone" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Company/Organization</label>
+                            <input type="text" name="company" placeholder="For corporate events">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label>Select Package *</label>
+                            <select name="package" required>
+                                <option value="">Choose a package...</option>
+                                <option value="classic">Classic Quickie - $299</option>
+                                <option value="deluxe">Deluxe Experience - $999</option>
+                                <option value="corporate">Corporate Events - $4,999</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label>Elvis Style Preference *</label>
+                            <div class="radio-group">
+                                <div class="radio-option" onclick="selectRadio('elvis1')">
+                                    <input type="radio" id="elvis1" name="elvisStyle" value="young" required>
+                                    <label for="elvis1">Young Elvis (1950s Rockabilly)</label>
+                                </div>
+                                <div class="radio-option" onclick="selectRadio('elvis2')">
+                                    <input type="radio" id="elvis2" name="elvisStyle" value="comeback">
+                                    <label for="elvis2">Comeback Elvis (1968 Black Leather)</label>
+                                </div>
+                                <div class="radio-option" onclick="selectRadio('elvis3')">
+                                    <input type="radio" id="elvis3" name="elvisStyle" value="jumpsuit">
+                                    <label for="elvis3">Jumpsuit Elvis (1970s Vegas)</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Preferred Date</label>
+                            <input type="text" name="date" placeholder="MM/DD/YYYY">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Number of Guests</label>
+                            <input type="number" name="guests" min="2" placeholder="e.g., 200">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label>Special Requests or Questions</label>
+                            <textarea name="requests" placeholder="Tell us about your vision for the event..."></textarea>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-button">Submit Booking Request</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p><strong>Vegas Elvis Weddings</strong></p>
+            <p>123 Las Vegas Blvd, Las Vegas, NV 89109</p>
+            <p>Phone: (702) 555-0199 | Email: info@vegaselvisweddings.com</p>
+            <p style="margin-top: 20px; font-size: 12px;">
+                Demo website for Cisco Live 2026 presentation
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function selectRadio(radioId) {
+            const radio = document.getElementById(radioId);
+            radio.checked = true;
+            
+            document.querySelectorAll(`input[name="${radio.name}"]`).forEach(r => {
+                r.closest('.radio-option').classList.remove('selected');
+            });
+            
+            radio.closest('.radio-option').classList.add('selected');
+        }
+
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            document.getElementById('successMessage').style.display = 'block';
+            window.scrollTo({ top: document.getElementById('booking').offsetTop - 100, behavior: 'smooth' });
+            
+            const formData = new FormData(this);
+            console.log('Booking submitted:');
+            for (let [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
+            }
+            
+            setTimeout(() => {
+                this.reset();
+                document.getElementById('successMessage').style.display = 'none';
+                document.querySelectorAll('.radio-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+            }, 3000);
+        });
+
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                selectRadio(this.id);
+            });
+        });
+    </script>
+</body>
+</html>
