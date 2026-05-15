@@ -368,8 +368,31 @@
                         <div id="leadTimestamp">
                             <span class="timestamp-label">Created:</span> -
                         </div>
-                        <div>
-                            <span class="timestamp-label">Source:</span> vegaselvisweddings.com
+  
+                    </div>
+                    <!-- Urgency Alert -->
+                    <div id="urgencyAlert" style="display: none;">
+                        <div style="
+                            margin-top: 24px;
+                            padding: 20px 24px;
+                            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+                            border-radius: 8px;
+                            border-left: 4px solid #7f1d1d;
+                            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+                        ">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <svg style="width: 24px; height: 24px; color: white; flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                </svg>
+                                <div style="flex: 1;">
+                                    <div style="color: white; font-weight: 700; font-size: 16px; margin-bottom: 4px;">
+                                        URGENT: Same-Day Event Request
+                                    </div>
+                                    <div style="color: #fecaca; font-size: 14px;">
+                                        This customer needs immediate contact center assistance. High-priority routing recommended.
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -415,7 +438,10 @@
             document.getElementById('leadElvisStyle').textContent = elvisStyles[elvisStyle] || '-';
             
             document.getElementById('leadGuests').textContent = params.get('guests') || '-';
-            document.getElementById('leadDate').textContent = params.get('date') || '-';
+            
+            const preferredDate = params.get('date');
+            document.getElementById('leadDate').textContent = preferredDate || '-';
+            
             document.getElementById('leadRequests').textContent = params.get('requests') || 'No special requests';
             
             // Set current timestamp
@@ -424,6 +450,20 @@
             const timestamp = now.toLocaleDateString('en-US', options);
             document.getElementById('leadTimestamp').innerHTML = 
                 `<span class="timestamp-label">Created:</span> ${timestamp}`;
+            
+            // Check if date is today (same-day request)
+            if (preferredDate) {
+                const today = new Date();
+                const selectedDate = new Date(preferredDate);
+                
+                // Compare dates (ignoring time)
+                const isSameDay = today.toDateString() === selectedDate.toDateString();
+                
+                if (isSameDay) {
+                    // Show urgency alert
+                    document.getElementById('urgencyAlert').style.display = 'block';
+                }
+            }
         });
     </script>
 </body>
