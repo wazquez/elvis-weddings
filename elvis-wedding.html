@@ -609,7 +609,7 @@
             altFormat: "F j, Y",
             theme: "light"
         });
-
+    
         function selectRadio(radioId) {
             const radio = document.getElementById(radioId);
             radio.checked = true;
@@ -620,18 +620,27 @@
             
             radio.closest('.radio-option').classList.add('selected');
         }
-
+    
         document.getElementById('bookingForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
+            // Get form data
+            const formData = new FormData(this);
+            
+            // Build URL with parameters
+            const params = new URLSearchParams();
+            for (let [key, value] of formData.entries()) {
+                if (value) { // Only add non-empty values
+                    params.append(key, value);
+                }
+            }
+            
+            // Open CRM page with data in URL
+            window.open('crm-lead.html?' + params.toString(), '_blank');
+            
+            // Show success message
             document.getElementById('successMessage').style.display = 'block';
             window.scrollTo({ top: document.getElementById('booking').offsetTop - 100, behavior: 'smooth' });
-            
-            const formData = new FormData(this);
-            console.log('Booking submitted:');
-            for (let [key, value] of formData.entries()) {
-                console.log(`${key}: ${value}`);
-            }
             
             setTimeout(() => {
                 this.reset();
@@ -641,7 +650,7 @@
                 });
             }, 3000);
         });
-
+    
         document.querySelectorAll('input[type="radio"]').forEach(radio => {
             radio.addEventListener('change', function() {
                 selectRadio(this.id);
