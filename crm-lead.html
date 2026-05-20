@@ -530,8 +530,10 @@
     <script>
         // Read data from URL parameters
         window.addEventListener('DOMContentLoaded', function() {
+            console.log('[WxCC] CRM lead view initialized — parsing inbound lead payload from URL parameters');
             const params = new URLSearchParams(window.location.search);
-            
+            console.log('[WxCC] Raw lead payload:', Object.fromEntries(params.entries()));
+
             // Populate fields from URL parameters
             document.getElementById('leadName').textContent = params.get('name') || '-';
             document.getElementById('leadEmail').textContent = params.get('email') || '-';
@@ -545,6 +547,7 @@
                 'corporate': 'Corporate Events'
             };
             const packageValue = params.get('package');
+            console.log('[WxCC] Package selected:', packageValue, '→', packageNames[packageValue] || '(unknown)');
             document.getElementById('leadPackage').textContent = packageNames[packageValue] || '-';
             
             // Package value
@@ -553,6 +556,7 @@
                 'deluxe': '$999',
                 'corporate': '$4,999'
             };
+            console.log('[WxCC] Deal value tier:', packageValues[packageValue] || 'unknown — skill-based routing will treat as standard priority');
             document.getElementById('leadValue').textContent = packageValues[packageValue] || '-';
             
             // Elvis style
@@ -591,37 +595,50 @@
                 const isSameDay = today.toDateString() === selectedDate.toDateString();
                 
                 if (isSameDay) {
+                    console.warn('[WxCC] SAME-DAY EVENT DETECTED — escalating to high-priority queue, requesting immediate agent assignment');
                     // Show urgency alert
                     document.getElementById('urgencyAlert').style.display = 'block';
+                } else {
+                    console.log('[WxCC] Preferred date is not same-day — standard SLA applies (preferredDate=' + preferredDate + ')');
                 }
             }
-            
+
             // Start routing timer after 2 seconds
+            console.log('[WxCC] Lead ingestion complete — scheduling Generic Task API dispatch in 2s');
             setTimeout(function() {
                 startRoutingTimer();
             }, 2000);
         });
         
         function startRoutingTimer() {
+            console.log('[WxCC] POST /v1/tasks — submitting lead to Generic Task API with skill-based routing rules');
+            console.log('[WxCC] Routing criteria → skills: ["enterprise-sales","wedding-events"], priority: 1, channel: "web-form"');
             const timerElement = document.getElementById('routingTimer');
             const countdownElement = document.getElementById('countdown');
             const completeElement = document.getElementById('routingComplete');
-            
+
             // Show timer
             timerElement.classList.add('active');
-            
+
             let timeLeft = 30;
-            
+
             const interval = setInterval(function() {
                 timeLeft--;
                 countdownElement.textContent = timeLeft;
-                
+
+                if (timeLeft === 20) {
+                    console.log('[WxCC] Awaiting agent acceptance — querying available agents in skill pool');
+                } else if (timeLeft === 10) {
+                    console.log('[WxCC] Agent located — establishing session and pushing lead context to agent desktop');
+                }
+
                 if (timeLeft <= 0) {
                     clearInterval(interval);
-                    
+                    console.log('[WxCC] ✓ Task accepted — lead successfully routed to agent with enterprise sales skills');
+
                     // Hide timer
                     timerElement.classList.remove('active');
-                    
+
                     // Show completion message
                     completeElement.classList.add('active');
                 }

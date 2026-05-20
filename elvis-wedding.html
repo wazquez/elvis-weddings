@@ -623,10 +623,11 @@
     
         document.getElementById('bookingForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
+            console.log('[WxCC] Booking form submitted — capturing lead for CRM handoff');
+
             // Get form data
             const formData = new FormData(this);
-            
+
             // Build URL with parameters
             const params = new URLSearchParams();
             for (let [key, value] of formData.entries()) {
@@ -634,7 +635,9 @@
                     params.append(key, value);
                 }
             }
-            
+            console.log('[WxCC] Lead payload prepared:', Object.fromEntries(params.entries()));
+            console.log('[WxCC] Handing off to CRM lead view → crm-lead.html');
+
             // Open CRM page with data in URL
             window.open('crm-lead.html?' + params.toString(), '_blank');
             
