@@ -530,7 +530,6 @@
     <script>
         // Read data from URL parameters
         window.addEventListener('DOMContentLoaded', function() {
-            console.log('[WxCC] CRM lead view initialized — parsing inbound lead payload from URL parameters');
             const params = new URLSearchParams(window.location.search);
             console.log('[WxCC] Raw lead payload:', Object.fromEntries(params.entries()));
 
@@ -547,7 +546,7 @@
                 'corporate': 'Corporate Events'
             };
             const packageValue = params.get('package');
-            console.log('[WxCC] Package selected:', packageValue, '→', packageNames[packageValue] || '(unknown)');
+            console.log('[WxCC] Package selected:', packageNames[packageValue] || '(unknown)');
             document.getElementById('leadPackage').textContent = packageNames[packageValue] || '-';
             
             // Package value
