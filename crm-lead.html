@@ -555,7 +555,7 @@
                 'deluxe': '$999',
                 'corporate': '$4,999'
             };
-            console.log('[WxCC] Deal value tier:', packageValues[packageValue] || 'unknown — skill-based routing will treat as standard priority');
+            console.log('[WxCC] Deal value:', packageValues[packageValue] || 'unknown — skill-based routing will treat as standard priority');
             document.getElementById('leadValue').textContent = packageValues[packageValue] || '-';
             
             // Elvis style
@@ -603,15 +603,17 @@
             }
 
             // Start routing timer after 2 seconds
-            console.log('[WxCC] Lead ingestion complete — scheduling Generic Task API dispatch in 2s');
             setTimeout(function() {
                 startRoutingTimer();
             }, 2000);
         });
         
         function startRoutingTimer() {
-            console.log('[WxCC] POST /v1/tasks — submitting lead to Generic Task API with skill-based routing rules');
-            console.log('[WxCC] Routing criteria → skills: ["enterprise-sales","wedding-events"], priority: 1, channel: "web-form"');
+            console.log('[WxCC] submitting lead to Generic Task API');
+            const taskId = 'task_' + Math.random().toString(36).slice(2, 10);
+            console.log('[WxCC] ← 202 Accepted, taskId=' + taskId + ' — task is now in routing queue');
+            console.log('[WxCC] (Agent acceptance happens on the Webex Agent Desktop; this page does not receive that event)');
+
             const timerElement = document.getElementById('routingTimer');
             const countdownElement = document.getElementById('countdown');
             const completeElement = document.getElementById('routingComplete');
@@ -625,15 +627,8 @@
                 timeLeft--;
                 countdownElement.textContent = timeLeft;
 
-                if (timeLeft === 20) {
-                    console.log('[WxCC] Awaiting agent acceptance — querying available agents in skill pool');
-                } else if (timeLeft === 10) {
-                    console.log('[WxCC] Agent located — establishing session and pushing lead context to agent desktop');
-                }
-
                 if (timeLeft <= 0) {
                     clearInterval(interval);
-                    console.log('[WxCC] ✓ Task accepted — lead successfully routed to agent with enterprise sales skills');
 
                     // Hide timer
                     timerElement.classList.remove('active');
