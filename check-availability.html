@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Availability - Task</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fa;
+            color: #1f2937;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2563eb;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #2563eb;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* Sidebar */
+        .layout {
+            display: flex;
+            height: calc(100vh - 65px);
+        }
+
+        .sidebar {
+            width: 240px;
+            background: white;
+            border-right: 1px solid #e5e7eb;
+            padding: 24px 0;
+        }
+
+        .nav-item {
+            padding: 12px 24px;
+            color: #6b7280;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-item:hover {
+            background: #f9fafb;
+            color: #1f2937;
+        }
+
+        .nav-item.active {
+            background: #eff6ff;
+            color: #2563eb;
+            border-left: 3px solid #2563eb;
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 32px;
+            overflow-y: auto;
+        }
+
+        .breadcrumb {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 24px;
+        }
+
+        .breadcrumb a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        /* Task Card */
+        .task-card {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
+        }
+
+        .card-body {
+            padding: 32px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-field.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .field-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            letter-spacing: 0.5px;
+        }
+
+        .field-value {
+            padding: 12px 16px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 15px;
+            color: #1f2937;
+        }
+
+        /* Checklist Section */
+        .checklist-section {
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .checklist {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .checklist-item:hover {
+            border-color: #2563eb;
+            background: #eff6ff;
+        }
+
+        .checklist-item.checked {
+            background: #ecfdf5;
+            border-color: #10b981;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #d1d5db;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s;
+            margin-top: 2px;
+        }
+
+        .checklist-item.checked .checkbox {
+            background: #10b981;
+            border-color: #10b981;
+        }
+
+        .checkbox svg {
+            width: 14px;
+            height: 14px;
+            color: white;
+            display: none;
+        }
+
+        .checklist-item.checked .checkbox svg {
+            display: block;
+        }
+
+        .checklist-text {
+            flex: 1;
+        }
+
+        .checklist-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+
+        .checklist-subtitle {
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        /* Calendar Modal */
+        .calendar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .calendar-overlay.active {
+            display: flex;
+        }
+
+        .calendar-modal {
+            background: white;
+            border-radius: 8px;
+            padding: 0;
+            width: 500px;
+            max-width: 90vw;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        .calendar-header {
+            padding: 24px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .calendar-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+
+        .calendar-date {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .calendar-body {
+            padding: 24px;
+        }
+
+        .time-slots {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .time-slot {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .time-slot.available {
+            background: #ecfdf5;
+            border-color: #10b981;
+        }
+
+        .time-slot.available:hover {
+            background: #d1fae5;
+            cursor: pointer;
+        }
+
+        .time-slot.booked {
+            background: #fee2e2;
+            border-color: #ef4444;
+            opacity: 0.7;
+        }
+
+        .slot-time {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .slot-status {
+            font-size: 13px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 4px;
+        }
+
+        .slot-status.available {
+            background: #10b981;
+            color: white;
+        }
+
+        .slot-status.booked {
+            background: #ef4444;
+            color: white;
+        }
+
+        .calendar-footer {
+            padding: 16px 24px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+
+        /* Completion Banner */
+        .completion-banner {
+            margin-top: 24px;
+            padding: 20px 24px;
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            border-radius: 8px;
+            border-left: 4px solid #065f46;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .completion-banner.active {
+            display: flex;
+        }
+
+        .completion-text {
+            color: white;
+        }
+
+        .completion-title {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .completion-subtitle {
+            color: #d1fae5;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #047857;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #f0fdf4;
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .booking-confirmed {
+            margin-top: 24px;
+            padding: 20px 24px;
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            border-radius: 8px;
+            border-left: 4px solid #1e40af;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            color: white;
+            display: none;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .booking-confirmed.active {
+            display: flex;
+        }
+
+        .booking-confirmed svg {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 1024px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">Check Availability</div>
+        <div class="user-info">
+            <span>Agent: Sarah Martinez</span>
+            <div class="user-avatar">SM</div>
+        </div>
+    </div>
+
+    <!-- Main Layout -->
+    <div class="layout">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="nav-item active">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                </svg>
+                My Work
+            </div>
+            <div class="nav-item">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                Schedule
+            </div>
+            <div class="nav-item">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                </svg>
+                Reports
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="breadcrumb">
+                <a href="#">Home</a> / <a href="#">My Work</a> / Resource Availability Check
+            </div>
+
+            <div class="task-card">
+                <div class="card-body">
+                    <div class="form-grid">
+                        <div class="form-field">
+                            <div class="field-label">Customer Name</div>
+                            <div class="field-value" id="taskLeadName">-</div>
+                        </div>
+
+                        <div class="form-field">
+                            <div class="field-label">Company</div>
+                            <div class="field-value" id="taskLeadCompany">-</div>
+                        </div>
+
+                        <div class="form-field">
+                            <div class="field-label">Email Address</div>
+                            <div class="field-value" id="taskLeadEmail">-</div>
+                        </div>
+
+                        <div class="form-field">
+                            <div class="field-label">Phone Number</div>
+                            <div class="field-value" id="taskLeadPhone">-</div>
+                        </div>
+
+                        <div class="form-field">
+                            <div class="field-label">Package Selected</div>
+                            <div class="field-value" id="taskLeadPackage">-</div>
+                        </div>
+
+                        <div class="form-field">
+                            <div class="field-label">Package Value</div>
+                            <div class="field-value" id="taskLeadValue">-</div>
+                        </div>
+
+                        <div class="form-field">
+                            <div class="field-label">Preferred Date</div>
+                            <div class="field-value" id="taskLeadDate">-</div>
+                        </div>
+
+                        <div class="form-field">
+                            <div class="field-label">Number of Guests</div>
+                            <div class="field-value" id="taskLeadGuests">-</div>
+                        </div>
+
+                        <div class="form-field">
+                            <div class="field-label">Elvis Style</div>
+                            <div class="field-value" id="taskLeadElvis">-</div>
+                        </div>
+
+                        <div class="form-field full-width">
+                            <div class="field-label">Special Requests</div>
+                            <div class="field-value" id="taskLeadRequests">-</div>
+                        </div>
+                    </div>
+
+                    <!-- Checklist Section -->
+                    <div class="checklist-section">
+                        <div class="section-title">Checklist</div>
+                        <div class="checklist">
+                            <div class="checklist-item" onclick="openCalendar(this)">
+                                <div class="checkbox">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                </div>
+                                <div class="checklist-text">
+                                    <div class="checklist-title">Chapel Availability</div>
+                                    <div class="checklist-subtitle">Check main chapel and VIP suite availability for event date</div>
+                                </div>
+                            </div>
+
+                            <div class="checklist-item" onclick="toggleCheck(this)">
+                                <div class="checkbox">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                </div>
+                                <div class="checklist-text">
+                                    <div class="checklist-title">Elvis Performer - Jumpsuit Style</div>
+                                    <div class="checklist-subtitle" id="subtitlePerformer">Confirm corporate-tier performer availability for the event</div>
+                                </div>
+                            </div>
+
+                            <div class="checklist-item" onclick="toggleCheck(this)">
+                                <div class="checkbox">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                </div>
+                                <div class="checklist-text">
+                                    <div class="checklist-title">Pink Cadillac Rental</div>
+                                    <div class="checklist-subtitle">Reserve vehicle for photo opportunities and event entrance</div>
+                                </div>
+                            </div>
+
+                            <div class="checklist-item" onclick="toggleCheck(this)">
+                                <div class="checkbox">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                </div>
+                                <div class="checklist-text">
+                                    <div class="checklist-title">Professional Photographer</div>
+                                    <div class="checklist-subtitle" id="subtitlePhotographer">Book photographer with large event experience</div>
+                                </div>
+                            </div>
+
+                            <div class="checklist-item" onclick="toggleCheck(this)">
+                                <div class="checkbox">
+                                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                </div>
+                                <div class="checklist-text">
+                                    <div class="checklist-title">Catering Services</div>
+                                    <div class="checklist-subtitle" id="subtitleCatering">Confirm catering capacity on event date</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Completion Banner (all resources confirmed) -->
+                        <div id="completionBanner" class="completion-banner">
+                            <div class="completion-text">
+                                <div class="completion-title">✓ All resources confirmed</div>
+                                <div class="completion-subtitle">Ready to finalize the booking for this customer</div>
+                            </div>
+                            <button class="btn btn-primary" onclick="confirmBooking()">Confirm Booking</button>
+                        </div>
+
+                        <!-- Booking Confirmed -->
+                        <div id="bookingConfirmed" class="booking-confirmed">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <div>
+                                <div style="font-weight: 700; font-size: 16px;">Booking confirmed</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Calendar Modal -->
+    <div class="calendar-overlay" id="calendarOverlay">
+        <div class="calendar-modal">
+            <div class="calendar-header">
+                <div class="calendar-title">Chapel Availability</div>
+                <div class="calendar-date" id="calendarDate">Today - May 21, 2026</div>
+            </div>
+            <div class="calendar-body">
+                <div class="time-slots">
+                    <div class="time-slot booked">
+                        <span class="slot-time">2:00 PM - 4:00 PM</span>
+                        <span class="slot-status booked">Booked</span>
+                    </div>
+                    <div class="time-slot booked">
+                        <span class="slot-time">4:00 PM - 6:00 PM</span>
+                        <span class="slot-status booked">Booked</span>
+                    </div>
+                    <div class="time-slot booked">
+                        <span class="slot-time">6:00 PM - 8:00 PM</span>
+                        <span class="slot-status booked">Booked</span>
+                    </div>
+                    <div class="time-slot available" onclick="selectSlot(this)">
+                        <span class="slot-time">8:00 PM - 10:00 PM</span>
+                        <span class="slot-status available">Available</span>
+                    </div>
+                    <div class="time-slot available" onclick="selectSlot(this)">
+                        <span class="slot-time">10:00 PM - 12:00 AM</span>
+                        <span class="slot-status available">Available</span>
+                    </div>
+                </div>
+            </div>
+            <div class="calendar-footer">
+                <button class="btn btn-secondary" onclick="closeCalendar()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentChecklistItem = null;
+
+        // Read data from URL parameters
+        window.addEventListener('DOMContentLoaded', function() {
+            // console.log('[WxCC] Agent task accepted — opening Resource Availability Check view');
+            const params = new URLSearchParams(window.location.search);
+            console.log('[WxCC] Task context:', Object.fromEntries(params.entries()));
+
+            // Populate task fields
+            document.getElementById('taskLeadName').textContent = params.get('name') || '-';
+            document.getElementById('taskLeadCompany').textContent = params.get('company') || 'N/A';
+            document.getElementById('taskLeadEmail').textContent = params.get('email') || '-';
+            document.getElementById('taskLeadPhone').textContent = params.get('phone') || '-';
+            
+            const packageNames = {
+                'classic': 'Classic Quickie',
+                'deluxe': 'Deluxe Experience',
+                'corporate': 'Corporate Events'
+            };
+            const rawPackage = params.get('package');
+            const packageKey = (rawPackage || '').toLowerCase();
+            document.getElementById('taskLeadPackage').textContent = packageNames[packageKey] || rawPackage || '-';
+
+            const packageValues = {
+                'classic': '$299',
+                'deluxe': '$999',
+                'corporate': '$4,999'
+            };
+            document.getElementById('taskLeadValue').textContent = packageValues[packageKey] || '-';
+
+            document.getElementById('taskLeadDate').textContent = params.get('date') || '-';
+            const guestsRaw = params.get('guests');
+            document.getElementById('taskLeadGuests').textContent = guestsRaw || '-';
+
+            // Adjust checklist subtitles based on guest count
+            const guests = parseInt(guestsRaw, 10);
+            if (!isNaN(guests) && guests > 0) {
+                const scale = guests >= 200 ? 'large' : 'standard';
+                document.getElementById('subtitlePerformer').textContent =
+                    `Confirm performer availability for ${guests}-guest event`;
+                document.getElementById('subtitlePhotographer').textContent =
+                    `Book photographer with ${scale} event experience (${guests} guests)`;
+                document.getElementById('subtitleCatering').textContent =
+                    `Confirm catering capacity for ${guests} guests on event date`;
+            }
+
+            const elvisStyles = {
+                'young': 'Young Elvis (1950s Rockabilly)',
+                'comeback': 'Comeback Elvis (1968 Black Leather)',
+                'jumpsuit': 'Jumpsuit Elvis (1970s Vegas)',
+                'seventies': 'Jumpsuit Elvis (1970s Vegas)'
+            };
+            const rawElvis = params.get('elvisStyle');
+            const elvisKey = (rawElvis || '').toLowerCase();
+            document.getElementById('taskLeadElvis').textContent = elvisStyles[elvisKey] || rawElvis || '-';
+            
+            document.getElementById('taskLeadRequests').textContent = params.get('requests') || 'No special requests';
+
+            // Calendar header reflects the lead's preferred date when available
+            const calendarDateEl = document.getElementById('calendarDate');
+            const preferredDate = params.get('date');
+            if (preferredDate && calendarDateEl) {
+                const parsed = new Date(preferredDate);
+                if (!isNaN(parsed)) {
+                    const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                    calendarDateEl.textContent = parsed.toLocaleDateString('en-US', opts);
+                } else {
+                    calendarDateEl.textContent = preferredDate;
+                }
+            }
+        });
+
+        function checkAllComplete() {
+            const items = document.querySelectorAll('.checklist-item');
+            const allChecked = Array.from(items).every(i => i.classList.contains('checked'));
+            if (allChecked) {
+                console.log('[WxCC] All resource checks complete — booking ready for confirmation');
+                document.getElementById('completionBanner').classList.add('active');
+            }
+        }
+
+        function confirmBooking() {
+            console.log('[WxCC] Agent confirmed booking');
+            document.getElementById('completionBanner').classList.remove('active');
+            document.getElementById('bookingConfirmed').classList.add('active');
+        }
+
+        function openCalendar(item) {
+            if (item.classList.contains('checked')) {
+                return; // Already checked, don't reopen
+            }
+            const title = item.querySelector('.checklist-title').textContent;
+            console.log('[WxCC] Agent opened resource calendar:', title);
+            currentChecklistItem = item;
+            document.getElementById('calendarOverlay').classList.add('active');
+        }
+
+        function closeCalendar() {
+            document.getElementById('calendarOverlay').classList.remove('active');
+        }
+
+        function selectSlot(slotElement) {
+            const slotTime = slotElement.querySelector('.slot-time').textContent;
+            // Mark the checklist item as checked
+            if (currentChecklistItem) {
+                const title = currentChecklistItem.querySelector('.checklist-title').textContent;
+                console.log('[WxCC] Resource reserved: "' + title + '" → ' + slotTime);
+                currentChecklistItem.classList.add('checked');
+            }
+            // Close the calendar
+            closeCalendar();
+            checkAllComplete();
+        }
+
+        function toggleCheck(element) {
+            if (element.classList.contains('checked')) {
+                return;
+            }
+            const title = element.querySelector('.checklist-title').textContent;
+            console.log('[WxCC] Resource confirmed: "' + title + '"');
+            element.classList.add('checked');
+            checkAllComplete();
+        }
+    </script>
+</body>
+</html>
