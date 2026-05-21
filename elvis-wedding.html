@@ -635,6 +635,8 @@
                     params.append(key, value);
                 }
             }
+            params.append('destinationId', 'CISCOLIVE2026');
+            params.append('channel', 'CRM');
             console.log('[WxCC] Lead payload prepared:', Object.fromEntries(params.entries()));
             console.log('[WxCC] Handing off to CRM lead view → crm-lead.html');
 

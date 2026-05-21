@@ -607,12 +607,63 @@
             }, 2000);
         });
         
-        function startRoutingTimer() {
-            console.log('[WxCC] submitting lead to Generic Task API');
-            const taskId = 'task_' + Math.random().toString(36).slice(2, 10);
-            console.log('[WxCC] Response: 202 for taskId=', taskId );
-            console.log('[WxCC] (Agent acceptance happens on the Webex Agent Desktop; this page does not receive that event)');
+        const ROUTING_ENDPOINT = 'https://be-task-routing-production.up.railway.app/api/request-crm-agent';
 
+        function toDDMMYYYY(ymd) {
+            if (!ymd) return '';
+            const [y, m, d] = ymd.split('-');
+            if (!y || !m || !d) return ymd;
+            return `${d}/${m}/${y}`;
+        }
+
+        function buildRoutingPayload() {
+            const params = new URLSearchParams(window.location.search);
+            const packageNames = {
+                'classic': 'Classic Quickie',
+                'deluxe': 'Deluxe Experience',
+                'corporate': 'Corporate Events'
+            };
+            const elvisStyles = {
+                'young': 'Young Elvis (1950s Rockabilly)',
+                'comeback': 'Comeback Elvis (1968 Black Leather)',
+                'jumpsuit': 'Jumpsuit Elvis (1970s Vegas)'
+            };
+            return {
+                name: params.get('name') || '',
+                email: params.get('email') || '',
+                phone: params.get('phone') || '',
+                package: packageNames[params.get('package')] || params.get('package') || '',
+                elvisStyle: elvisStyles[params.get('elvisStyle')] || params.get('elvisStyle') || '',
+                date: toDDMMYYYY(params.get('date')),
+                guests: params.get('guests') || '',
+                requests: params.get('requests') || '',
+                destinationId: params.get('destinationId') || 'CISCOLIVE2026',
+                channel: params.get('channel') || 'CRM'
+            };
+        }
+
+        async function dispatchToRoutingApi() {
+            const payload = buildRoutingPayload();
+            console.log('[WxCC] POST ' + ROUTING_ENDPOINT, payload);
+            try {
+                const res = await fetch(ROUTING_ENDPOINT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const body = await res.json().catch(() => null);
+                if (!res.ok) {
+                    console.error('[WxCC] Routing API returned ' + res.status, body);
+                    return;
+                }
+                console.log('[WxCC] ' + res.status + ' ' + res.statusText, body);
+                console.log('[WxCC] (Agent acceptance happens on the Webex Agent Desktop; this page does not receive that event)');
+            } catch (err) {
+                console.error('[WxCC] Routing API request failed:', err);
+            }
+        }
+
+        function startRoutingTimer() {
             const timerElement = document.getElementById('routingTimer');
             const countdownElement = document.getElementById('countdown');
             const completeElement = document.getElementById('routingComplete');
@@ -634,6 +685,9 @@
 
                     // Show completion message
                     completeElement.classList.add('active');
+
+                    // Dispatch to routing API after countdown completes
+                    dispatchToRoutingApi();
                 }
             }, 1000);
         }
