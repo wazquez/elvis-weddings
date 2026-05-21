@@ -611,7 +611,7 @@
         function startRoutingTimer() {
             console.log('[WxCC] submitting lead to Generic Task API');
             const taskId = 'task_' + Math.random().toString(36).slice(2, 10);
-            console.log('[WxCC] ← 202 Accepted, taskId=' + taskId + ' — task is now in routing queue');
+            console.log('[WxCC] Response: 202 for taskId=', taskId );
             console.log('[WxCC] (Agent acceptance happens on the Webex Agent Desktop; this page does not receive that event)');
 
             const timerElement = document.getElementById('routingTimer');
