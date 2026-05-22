@@ -225,105 +225,26 @@
             font-weight: 500;
         }
 
-        /* Routing Timer */
-        .routing-timer {
-            margin-top: 32px;
-            padding: 24px;
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            border-radius: 8px;
-            border-left: 4px solid #b45309;
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        .field-value.confirmed {
+            background: #10b981;
+            border-color: #059669;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .status-error {
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: #fee2e2;
+            border-radius: 6px;
+            color: #991b1b;
+            font-size: 13px;
             display: none;
         }
 
-        .routing-timer.active {
+        .status-error.active {
             display: block;
-        }
-
-        .timer-content {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .timer-icon {
-            width: 48px;
-            height: 48px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .timer-icon svg {
-            width: 28px;
-            height: 28px;
-            color: white;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-        }
-
-        .timer-text {
-            flex: 1;
-        }
-
-        .timer-title {
-            color: white;
-            font-weight: 700;
-            font-size: 18px;
-            margin-bottom: 4px;
-        }
-
-        .timer-subtitle {
-            color: #fef3c7;
-            font-size: 14px;
-        }
-
-        .timer-countdown {
-            background: rgba(255, 255, 255, 0.9);
-            color: #92400e;
-            font-weight: 700;
-            font-size: 32px;
-            padding: 12px 24px;
-            border-radius: 8px;
-            min-width: 80px;
-            text-align: center;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .timer-complete {
-            margin-top: 32px;
-            padding: 20px 24px;
-            background: linear-gradient(135deg, #059669 0%, #047857 100%);
-            border-radius: 8px;
-            border-left: 4px solid #065f46;
-            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
-            display: none;
-        }
-
-        .timer-complete.active {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .timer-complete svg {
-            width: 24px;
-            height: 24px;
-            color: white;
-            flex-shrink: 0;
-        }
-
-        .complete-text {
-            color: white;
-            font-weight: 700;
-            font-size: 16px;
         }
 
         @media (max-width: 768px) {
@@ -458,11 +379,17 @@
                             <div class="field-value">Website Form</div>
                         </div>
 
+                        <div class="form-field">
+                            <div class="field-label">Availability Confirmed?</div>
+                            <div class="field-value" id="availabilityConfirmed">No</div>
+                        </div>
+
                         <div class="form-field full-width">
                             <div class="field-label">Special Requests</div>
                             <div class="field-value" id="leadRequests">-</div>
                         </div>
                     </div>
+                    <div id="statusError" class="status-error"></div>
 
                     <div class="timestamp">
                         <div id="leadTimestamp">
@@ -489,36 +416,10 @@
                                         URGENT: Same-Day Event Request
                                     </div>
                                     <div style="color: #fecaca; font-size: 14px;">
-                                        This customer needs immediate contact center assistance. High-priority routing recommended.
+                                        Availability check required immediately to confirm this booking.
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <!-- Routing Timer -->
-                    <div id="routingTimer" class="routing-timer">
-                        <div class="timer-content">
-                            <div class="timer-icon">
-                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                </svg>
-                            </div>
-                            <div class="timer-text">
-                                <div class="timer-title">Routing to Contact Center Agent...</div>
-                                <div class="timer-subtitle">Using WxCC Generic Task API with intelligent skill-based routing</div>
-                            </div>
-                            <div class="timer-countdown" id="countdown">30</div>
-                        </div>
-                    </div>
-
-                    <!-- Routing Complete -->
-                    <div id="routingComplete" class="timer-complete">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        <div>
-                            <div class="complete-text">✓ Successfully Routed to Agent</div>
-                            <div style="color: #d1fae5; font-size: 14px; margin-top: 4px;">Lead assigned to available agent with enterprise sales skills</div>
                         </div>
                     </div>
                 </div>
@@ -601,13 +502,20 @@
                 }
             }
 
-            // Start routing timer after 2 seconds
-            setTimeout(function() {
-                startRoutingTimer();
-            }, 2000);
+            // Dispatch task to BE immediately, then poll for status
+            dispatchAndPoll();
         });
-        
-        const ROUTING_ENDPOINT = 'https://be-task-routing-production.up.railway.app/api/request-crm-agent';
+
+        const BE_BASE = 'https://be-task-routing-production.up.railway.app';
+        const ROUTING_ENDPOINT = BE_BASE + '/api/request-crm-agent';
+        const STATUS_ENDPOINT = BE_BASE + '/api/task-status/';
+        const POLL_INTERVAL_MS = 3000;
+        const POLL_TIMEOUT_MS = 10 * 60 * 1000; // 10 minutes
+
+        // Pause execution for `ms` milliseconds. JS has no built-in sleep.
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
 
         function toDDMMYYYY(ymd) {
             if (!ymd) return '';
@@ -642,9 +550,61 @@
             };
         }
 
-        async function dispatchToRoutingApi() {
+        function renderStatus(status) {
+            const field = document.getElementById('availabilityConfirmed');
+            if (status === 'completed') {
+                field.textContent = 'Yes';
+                field.classList.add('confirmed');
+            } else {
+                field.textContent = 'No';
+                field.classList.remove('confirmed');
+            }
+        }
+
+        function showError(message) {
+            const el = document.getElementById('statusError');
+            el.textContent = message;
+            el.classList.add('active');
+        }
+
+        async function pollStatus(taskId) {
+            const url = STATUS_ENDPOINT + encodeURIComponent(taskId);
+            console.log('[WxCC] Polling ' + url);
+            const startedAt = Date.now();
+            let lastStatus = 'submitted';
+
+            while (Date.now() - startedAt < POLL_TIMEOUT_MS) {
+                try {
+                    const res = await fetch(url);
+                    if (!res.ok) {
+                        console.warn('[WxCC] Status poll returned ' + res.status);
+                    } else {
+                        const body = await res.json().catch(() => null);
+                        const status = body && (body.status || (body.data && body.data.status));
+                        if (status && status !== lastStatus) {
+                            console.log('[WxCC] Task status changed: ' + lastStatus + ' → ' + status);
+                            lastStatus = status;
+                            renderStatus(status);
+                        }
+                        if (status === 'completed' || status === 'failed') {
+                            console.log('[WxCC] Polling stopped — terminal state reached');
+                            return;
+                        }
+                    }
+                } catch (err) {
+                    console.warn('[WxCC] Status poll error:', err);
+                }
+                await sleep(POLL_INTERVAL_MS);
+            }
+            console.warn('[WxCC] Polling timed out after ' + (POLL_TIMEOUT_MS / 1000) + 's');
+        }
+
+        async function dispatchAndPoll() {
             const payload = buildRoutingPayload();
             console.log('[WxCC] POST ' + ROUTING_ENDPOINT, payload);
+            renderStatus('submitted');
+
+            let taskId = null;
             try {
                 const res = await fetch(ROUTING_ENDPOINT, {
                     method: 'POST',
@@ -654,42 +614,25 @@
                 const body = await res.json().catch(() => null);
                 if (!res.ok) {
                     console.error('[WxCC] Routing API returned ' + res.status, body);
+                    showError('Failed to create task (' + res.status + '). Check console for details.');
                     return;
                 }
                 console.log('[WxCC] ' + res.status + ' ' + res.statusText, body);
-                console.log('[WxCC] (Agent acceptance happens on the Webex Agent Desktop; this page does not receive that event)');
+                taskId = body && body.data && body.data.id;
+                if (!taskId) {
+                    console.error('[WxCC] Response missing data.id', body);
+                    showError('Task created but no taskId returned by BE.');
+                    return;
+                }
+                console.log('[WxCC] Task created with id=' + taskId + ' — beginning status polling');
+                renderStatus('submitted');
             } catch (err) {
                 console.error('[WxCC] Routing API request failed:', err);
+                showError('Network error while creating task.');
+                return;
             }
-        }
 
-        function startRoutingTimer() {
-            const timerElement = document.getElementById('routingTimer');
-            const countdownElement = document.getElementById('countdown');
-            const completeElement = document.getElementById('routingComplete');
-
-            // Show timer
-            timerElement.classList.add('active');
-
-            let timeLeft = 30;
-
-            const interval = setInterval(function() {
-                timeLeft--;
-                countdownElement.textContent = timeLeft;
-
-                if (timeLeft <= 0) {
-                    clearInterval(interval);
-
-                    // Hide timer
-                    timerElement.classList.remove('active');
-
-                    // Show completion message
-                    completeElement.classList.add('active');
-
-                    // Dispatch to routing API after countdown completes
-                    dispatchToRoutingApi();
-                }
-            }, 1000);
+            // await pollStatus(taskId);
         }
     </script>
 </body>
