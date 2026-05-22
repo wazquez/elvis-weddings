@@ -618,10 +618,10 @@
                     return;
                 }
                 console.log('[WxCC] ' + res.status + ' ' + res.statusText, body);
-                taskId = body && body.data && body.data.id;
+                taskId = body && body.originId;
                 if (!taskId) {
-                    console.error('[WxCC] Response missing data.id', body);
-                    showError('Task created but no taskId returned by BE.');
+                    console.error('[WxCC] Response missing originId', body);
+                    showError('Task created but no originId returned by BE.');
                     return;
                 }
                 console.log('[WxCC] Task created with id=' + taskId + ' — beginning status polling');
