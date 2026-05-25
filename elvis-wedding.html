@@ -640,8 +640,12 @@
             console.log('[WxCC] Lead payload prepared:', Object.fromEntries(params.entries()));
             console.log('[WxCC] Handing off to CRM lead view → crm-lead.html');
 
-            // Open CRM page with data in URL
-            window.open('crm-lead.html?' + params.toString(), '_blank');
+            // Open CRM page and agent task view in two tabs.
+            // Both opens happen inside this submit handler so they share the user gesture,
+            // which is what popup blockers actually check.
+            const qs = '?' + params.toString();
+            window.open('crm-lead.html' + qs, '_blank');
+            window.open('check-availability.html' + qs, '_blank');
             
             // Show success message
             document.getElementById('successMessage').style.display = 'block';
