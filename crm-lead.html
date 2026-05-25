@@ -506,8 +506,12 @@
             dispatchAndPoll();
 
             // Open the agent task view in a new tab, passing the same URL params through.
-            // Note: browsers may block this popup since it's not triggered by a user gesture.
-            window.open('check-availability.html' + window.location.search, '_blank');
+            const agentUrl = 'check-availability.html' + window.location.search;
+            console.log('[WxCC] Opening agent task view:', agentUrl);
+            const win = window.open(agentUrl, '_blank');
+            if (!win || win.closed || typeof win.closed === 'undefined') {
+                console.warn('[WxCC] window.open returned null/closed — likely popup-blocked by browser');
+            }
         });
 
         const BE_BASE = 'https://be-task-routing-production.up.railway.app';
