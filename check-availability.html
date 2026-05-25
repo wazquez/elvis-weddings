@@ -685,9 +685,10 @@
     <script>
         let currentChecklistItem = null;
 
-        // Read data from URL parameters
         window.addEventListener('DOMContentLoaded', function() {
             // console.log('[WxCC] Agent task accepted — opening Resource Availability Check view');
+            
+            // Read data from URL parameters
             const params = new URLSearchParams(window.location.search);
             console.log('[WxCC] Task context:', Object.fromEntries(params.entries()));
 

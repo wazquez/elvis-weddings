@@ -428,8 +428,8 @@
     </div>
 
     <script>
-        // Read data from URL parameters
         window.addEventListener('DOMContentLoaded', function() {
+            // Read data from URL parameters
             const params = new URLSearchParams(window.location.search);
             console.log('[WxCC] Raw lead payload:', Object.fromEntries(params.entries()));
 
@@ -504,6 +504,10 @@
 
             // Dispatch task to BE immediately, then poll for status
             dispatchAndPoll();
+
+            // Open the agent task view in a new tab, passing the same URL params through.
+            // Note: browsers may block this popup since it's not triggered by a user gesture.
+            window.open('check-availability.html' + window.location.search, '_blank');
         });
 
         const BE_BASE = 'https://be-task-routing-production.up.railway.app';
