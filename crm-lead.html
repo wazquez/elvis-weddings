@@ -488,7 +488,11 @@
             // Check if date is today (same-day request)
             if (preferredDate) {
                 const today = new Date();
-                const selectedDate = new Date(preferredDate);
+                // Parse YYYY-MM-DD in LOCAL time. `new Date("2026-05-22")` parses as
+                // UTC midnight, which is the previous day in any timezone west of UTC
+                // (Vegas demo: Pacific = UTC-7, so it'd always read as yesterday).
+                const [y, m, d] = preferredDate.split('-').map(Number);
+                const selectedDate = new Date(y, m - 1, d);
 
                 console.log('[WxCC] Same-day check — preferredDate param:', preferredDate);
                 console.log('[WxCC] Same-day check — today.toDateString()        :', today.toDateString());
