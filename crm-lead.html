@@ -489,7 +489,11 @@
             if (preferredDate) {
                 const today = new Date();
                 const selectedDate = new Date(preferredDate);
-                
+
+                console.log('[WxCC] Same-day check — preferredDate param:', preferredDate);
+                console.log('[WxCC] Same-day check — today.toDateString()        :', today.toDateString());
+                console.log('[WxCC] Same-day check — selectedDate.toDateString() :', selectedDate.toDateString());
+
                 // Compare dates (ignoring time)
                 const isSameDay = today.toDateString() === selectedDate.toDateString();
                 
