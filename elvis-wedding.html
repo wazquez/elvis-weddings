@@ -635,17 +635,16 @@
                     params.append(key, value);
                 }
             }
-            params.append('destinationId', 'CISCOLIVE2026');
+            params.append('destinationId', 'Wx12026');
             params.append('channel', 'CRM');
             console.log('[WxCC] Lead payload prepared:', Object.fromEntries(params.entries()));
             console.log('[WxCC] Handing off to CRM lead view → crm-lead.html');
 
-            // Open CRM page and agent task view in two tabs.
-            // Both opens happen inside this submit handler so they share the user gesture,
-            // which is what popup blockers actually check.
+            // Open the CRM page, which POSTs the lead to the BE and on to WxCC's
+            // Task Routing API. check-availability.html is no longer opened from
+            // here — WxCC Agent Desktop screen-pops it once an agent accepts the task.
             const qs = '?' + params.toString();
             window.open('crm-lead.html' + qs, '_blank');
-            window.open('check-availability.html' + qs, '_blank');
             
             // Show success message
             document.getElementById('successMessage').style.display = 'block';
