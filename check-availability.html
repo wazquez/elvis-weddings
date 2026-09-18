@@ -541,13 +541,13 @@
                         </div>
 
                         <div class="form-field">
-                            <div class="field-label">Number of Guests</div>
+                            <div class="field-label">Expected Audience Size</div>
                             <div class="field-value" id="taskLeadGuests">-</div>
                         </div>
 
                         <div class="form-field">
-                            <div class="field-label">Elvis Style</div>
-                            <div class="field-value" id="taskLeadElvis">-</div>
+                            <div class="field-label">Genre</div>
+                            <div class="field-value" id="taskLeadGenre">-</div>
                         </div>
 
                         <div class="form-field full-width">
@@ -567,8 +567,8 @@
                                     </svg>
                                 </div>
                                 <div class="checklist-text">
-                                    <div class="checklist-title">Chapel Availability</div>
-                                    <div class="checklist-subtitle">Check main chapel and VIP suite availability for event date</div>
+                                    <div class="checklist-title">Venue / Stage Availability</div>
+                                    <div class="checklist-subtitle">Check stage and backline setup availability for event date</div>
                                 </div>
                             </div>
 
@@ -579,8 +579,8 @@
                                     </svg>
                                 </div>
                                 <div class="checklist-text">
-                                    <div class="checklist-title">Elvis Performer - Jumpsuit Style</div>
-                                    <div class="checklist-subtitle" id="subtitlePerformer">Confirm corporate-tier performer availability for the event</div>
+                                    <div class="checklist-title">Band Availability - Full Band Tier</div>
+                                    <div class="checklist-subtitle" id="subtitleBand">Confirm full-band tier availability for the event</div>
                                 </div>
                             </div>
 
@@ -591,8 +591,8 @@
                                     </svg>
                                 </div>
                                 <div class="checklist-text">
-                                    <div class="checklist-title">Pink Cadillac Rental</div>
-                                    <div class="checklist-subtitle">Reserve vehicle for photo opportunities and event entrance</div>
+                                    <div class="checklist-title">Sound Engineer</div>
+                                    <div class="checklist-subtitle">Reserve dedicated sound engineer for the performance</div>
                                 </div>
                             </div>
 
@@ -603,8 +603,8 @@
                                     </svg>
                                 </div>
                                 <div class="checklist-text">
-                                    <div class="checklist-title">Professional Photographer</div>
-                                    <div class="checklist-subtitle" id="subtitlePhotographer">Book photographer with large event experience</div>
+                                    <div class="checklist-title">Lighting & AV Technician</div>
+                                    <div class="checklist-subtitle" id="subtitleLighting">Book lighting & AV technician with large event experience</div>
                                 </div>
                             </div>
 
@@ -649,7 +649,7 @@
     <div class="calendar-overlay" id="calendarOverlay">
         <div class="calendar-modal">
             <div class="calendar-header">
-                <div class="calendar-title">Chapel Availability</div>
+                <div class="calendar-title">Venue / Stage Availability</div>
                 <div class="calendar-date" id="calendarDate">Today - May 21, 2026</div>
             </div>
             <div class="calendar-body">
@@ -699,18 +699,18 @@
             document.getElementById('taskLeadPhone').textContent = params.get('phone') || '-';
             
             const packageNames = {
-                'classic': 'Classic Quickie',
-                'deluxe': 'Deluxe Experience',
-                'corporate': 'Corporate Events'
+                'solo': 'Solo Acoustic',
+                'trio': 'Trio Package',
+                'fullband': 'Full Band & Production'
             };
             const rawPackage = params.get('package');
             const packageKey = (rawPackage || '').toLowerCase();
             document.getElementById('taskLeadPackage').textContent = packageNames[packageKey] || rawPackage || '-';
 
             const packageValues = {
-                'classic': '$299',
-                'deluxe': '$999',
-                'corporate': '$4,999'
+                'solo': '$299',
+                'trio': '$999',
+                'fullband': '$4,999'
             };
             document.getElementById('taskLeadValue').textContent = packageValues[packageKey] || '-';
 
@@ -718,27 +718,29 @@
             const guestsRaw = params.get('guests');
             document.getElementById('taskLeadGuests').textContent = guestsRaw || '-';
 
-            // Adjust checklist subtitles based on guest count
+            // Adjust checklist subtitles based on audience size
             const guests = parseInt(guestsRaw, 10);
             if (!isNaN(guests) && guests > 0) {
                 const scale = guests >= 200 ? 'large' : 'standard';
-                document.getElementById('subtitlePerformer').textContent =
-                    `Confirm performer availability for ${guests}-guest event`;
-                document.getElementById('subtitlePhotographer').textContent =
-                    `Book photographer with ${scale} event experience (${guests} guests)`;
+                document.getElementById('subtitleBand').textContent =
+                    `Confirm band availability for ${guests}-guest event`;
+                document.getElementById('subtitleLighting').textContent =
+                    `Book lighting & AV technician with ${scale} event experience (${guests} guests)`;
                 document.getElementById('subtitleCatering').textContent =
                     `Confirm catering capacity for ${guests} guests on event date`;
             }
 
+            // Genre preference (still carried in the `elvisStyle` URL param/field name
+            // for wire compatibility with the BE and Cisco's Task Routing API)
             const elvisStyles = {
-                'young': 'Young Elvis (1950s Rockabilly)',
-                'comeback': 'Comeback Elvis (1968 Black Leather)',
-                'jumpsuit': 'Jumpsuit Elvis (1970s Vegas)',
-                'seventies': 'Jumpsuit Elvis (1970s Vegas)'
+                'country': 'Country & Americana',
+                'blues': 'Blues & Soul',
+                'indie': 'Indie & Alternative',
+                'tejano': 'Tejano & Latin'
             };
             const rawElvis = params.get('elvisStyle');
             const elvisKey = (rawElvis || '').toLowerCase();
-            document.getElementById('taskLeadElvis').textContent = elvisStyles[elvisKey] || rawElvis || '-';
+            document.getElementById('taskLeadGenre').textContent = elvisStyles[elvisKey] || rawElvis || '-';
             
             document.getElementById('taskLeadRequests').textContent = params.get('requests') || 'No special requests';
 

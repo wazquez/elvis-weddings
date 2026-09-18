@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vegas Elvis Weddings - Las Vegas Wedding Chapel</title>
+    <title>Red River Sound Co. - Austin Live Music Booking</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
+
     <!-- Flatpickr CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    
+
     <style>
         * {
             margin: 0;
@@ -44,7 +44,7 @@
             font-family: 'Playfair Display', serif;
             font-size: 42px;
             font-weight: 700;
-            color: #8b0000;
+            color: #bf5700;
             letter-spacing: 3px;
             margin-bottom: 15px;
         }
@@ -67,13 +67,13 @@
         }
 
         nav a:hover {
-            color: #8b0000;
+            color: #bf5700;
         }
 
-        /* Hero Section with Vegas Background */
+        /* Hero Section with Austin Skyline Background */
         .hero {
-            background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), 
-                        url('./vegas-bg.jpg');
+            background: linear-gradient(rgba(20,10,35,0.55), rgba(20,10,35,0.55)),
+                        url('./austin-skyline.jpg');
             background-size: cover;
             background-position: center;
             height: 550px;
@@ -84,12 +84,17 @@
             color: white;
         }
 
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
         .hero-content h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 64px;
+            font-size: 60px;
             margin-bottom: 25px;
             font-weight: 400;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             line-height: 1.2;
             text-shadow: 3px 3px 12px rgba(0,0,0,0.9), 0 0 20px rgba(0,0,0,0.8);
         }
@@ -103,7 +108,7 @@
         }
 
         .cta-button {
-            background: #8b0000;
+            background: #bf5700;
             color: white;
             padding: 16px 45px;
             text-decoration: none;
@@ -119,9 +124,9 @@
         }
 
         .cta-button:hover {
-            background: #a00000;
+            background: #d4650a;
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(139, 0, 0, 0.3);
+            box-shadow: 0 4px 15px rgba(191, 87, 0, 0.35);
         }
 
         /* Main Content */
@@ -136,7 +141,7 @@
             text-align: center;
             font-size: 42px;
             margin-bottom: 60px;
-            color: #8b0000;
+            color: #bf5700;
             font-weight: 400;
             letter-spacing: 1px;
         }
@@ -174,7 +179,7 @@
 
         .package-price {
             font-size: 48px;
-            color: #8b0000;
+            color: #bf5700;
             margin: 25px 0;
             font-weight: 300;
         }
@@ -255,7 +260,7 @@
         select:focus,
         textarea:focus {
             outline: none;
-            border-color: #8b0000;
+            border-color: #bf5700;
             background: white;
         }
 
@@ -291,7 +296,7 @@
         }
 
         .radio-option:hover {
-            border-color: #8b0000;
+            border-color: #bf5700;
             background: white;
         }
 
@@ -309,7 +314,7 @@
         }
 
         .radio-option.selected {
-            border-color: #8b0000;
+            border-color: #bf5700;
             background: white;
             border-width: 2px;
         }
@@ -317,7 +322,7 @@
         .submit-button {
             width: 100%;
             padding: 18px;
-            background: #8b0000;
+            background: #bf5700;
             color: white;
             border: none;
             font-size: 14px;
@@ -331,9 +336,9 @@
         }
 
         .submit-button:hover {
-            background: #a00000;
+            background: #d4650a;
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(139, 0, 0, 0.3);
+            box-shadow: 0 4px 15px rgba(191, 87, 0, 0.35);
         }
 
         .success-message {
@@ -377,34 +382,34 @@
         }
 
         .flatpickr-day.selected {
-            background: #8b0000 !important;
-            border-color: #8b0000 !important;
+            background: #bf5700 !important;
+            border-color: #bf5700 !important;
         }
 
         .flatpickr-day.selected:hover {
-            background: #a00000 !important;
-            border-color: #a00000 !important;
+            background: #d4650a !important;
+            border-color: #d4650a !important;
         }
 
         .flatpickr-day:hover {
-            background: #fff5f5 !important;
-            border-color: #8b0000 !important;
+            background: #fff3e8 !important;
+            border-color: #bf5700 !important;
         }
 
         .flatpickr-months .flatpickr-month {
-            background: #8b0000 !important;
+            background: #bf5700 !important;
         }
 
         .flatpickr-current-month .flatpickr-monthDropdown-months {
-            background: #8b0000 !important;
+            background: #bf5700 !important;
         }
 
         .flatpickr-weekdays {
-            background: #8b0000 !important;
+            background: #bf5700 !important;
         }
 
         span.flatpickr-weekday {
-            background: #8b0000 !important;
+            background: #bf5700 !important;
             color: white !important;
         }
 
@@ -418,7 +423,7 @@
             }
 
             .hero-content h1 {
-                font-size: 40px;
+                font-size: 38px;
             }
 
             .logo {
@@ -436,7 +441,7 @@
     <!-- Header -->
     <header>
         <div class="header-content">
-            <div class="logo">VEGAS ELVIS WEDDINGS</div>
+            <div class="logo">RED RIVER SOUND CO.</div>
             <nav>
                 <a href="#packages">Packages</a>
                 <a href="#about">About</a>
@@ -449,55 +454,55 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <h1>Marry in Style with The King</h1>
-            <p>Authentic Elvis-Themed Wedding Ceremonies in Las Vegas</p>
-            <a href="#booking" class="cta-button">Book Your Wedding</a>
+            <h1>Book Austin's Best Live Music</h1>
+            <p>Live Bands &amp; Musicians for Every Event, Booked in Minutes</p>
+            <a href="#booking" class="cta-button">Book Your Show</a>
         </div>
     </section>
 
     <!-- Packages Section -->
     <section class="container" id="packages">
-        <h2 class="section-title">Wedding Packages</h2>
+        <h2 class="section-title">Booking Packages</h2>
         <div class="packages">
             <div class="package-card">
-                <h3>Classic Quickie</h3>
+                <h3>Solo Acoustic</h3>
                 <div class="package-price">$299</div>
                 <ul class="package-features">
-                    <li>15-minute ceremony</li>
-                    <li>Elvis impersonator officiant</li>
-                    <li>Marriage certificate filing</li>
-                    <li>Witness services</li>
-                    <li>Digital photos (10)</li>
+                    <li>1-hour acoustic set</li>
+                    <li>Singer-songwriter or duo</li>
+                    <li>PA system &amp; wireless mic included</li>
+                    <li>Custom song list (originals + covers)</li>
+                    <li>Digital audio recording (highlights)</li>
                 </ul>
                 <a href="#booking" class="cta-button">Select Package</a>
             </div>
 
             <div class="package-card">
-                <h3>Deluxe Experience</h3>
+                <h3>Trio Package</h3>
                 <div class="package-price">$999</div>
                 <ul class="package-features">
-                    <li>30-minute ceremony</li>
-                    <li>Premium Elvis performer</li>
-                    <li>Live music performance</li>
-                    <li>Professional photography (50 photos)</li>
-                    <li>Video recording</li>
-                    <li>Champagne toast</li>
-                    <li>Bouquet & boutonniere</li>
+                    <li>2-hour live set</li>
+                    <li>3-piece band (vocals, guitar, rhythm section)</li>
+                    <li>Full sound reinforcement</li>
+                    <li>Stage lighting package</li>
+                    <li>Professional video recording</li>
+                    <li>Custom setlist consultation</li>
+                    <li>Merch table setup</li>
                 </ul>
                 <a href="#booking" class="cta-button">Select Package</a>
             </div>
 
             <div class="package-card">
-                <h3>Corporate Events</h3>
+                <h3>Full Band &amp; Production</h3>
                 <div class="package-price">$4,999</div>
                 <ul class="package-features">
                     <li>Customizable event (2-4 hours)</li>
-                    <li>Multiple Elvis performers</li>
-                    <li>Full production team</li>
-                    <li>Corporate group accommodation</li>
-                    <li>Pink Cadillac photo opportunities</li>
-                    <li>Professional sound & lighting</li>
+                    <li>Full band (5+ pieces) with horn section option</li>
+                    <li>Complete production team (sound + lighting engineers)</li>
+                    <li>Large-venue &amp; corporate event accommodation</li>
+                    <li>Professional sound &amp; lighting rig</li>
                     <li>Dedicated event coordinator</li>
+                    <li>Backline &amp; stage setup included</li>
                 </ul>
                 <a href="#booking" class="cta-button">Contact Us</a>
             </div>
@@ -507,7 +512,7 @@
     <!-- Booking Form Section -->
     <section class="booking-section" id="booking">
         <div class="container">
-            <h2 class="section-title">Book Your Experience</h2>
+            <h2 class="section-title">Book Your Show</h2>
             <div class="form-container">
                 <div id="successMessage" class="success-message">
                     Thank you for your booking request! We'll contact you within 24 hours.
@@ -531,34 +536,38 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Company/Organization</label>
-                            <input type="text" name="company" placeholder="For corporate events">
+                            <label>Venue / Organization</label>
+                            <input type="text" name="company" placeholder="For venue bookings or corporate events">
                         </div>
 
                         <div class="form-group full-width">
                             <label>Select Package *</label>
                             <select name="package" required>
                                 <option value="">Choose a package...</option>
-                                <option value="classic">Classic Quickie - $299</option>
-                                <option value="deluxe">Deluxe Experience - $999</option>
-                                <option value="corporate">Corporate Events - $4,999</option>
+                                <option value="solo">Solo Acoustic - $299</option>
+                                <option value="trio">Trio Package - $999</option>
+                                <option value="fullband">Full Band & Production - $4,999</option>
                             </select>
                         </div>
 
                         <div class="form-group full-width">
-                            <label>Elvis Style Preference *</label>
+                            <label>Genre Preference *</label>
                             <div class="radio-group">
-                                <div class="radio-option" onclick="selectRadio('elvis1')">
-                                    <input type="radio" id="elvis1" name="elvisStyle" value="young" required>
-                                    <label for="elvis1">Young Elvis (1950s Rockabilly)</label>
+                                <div class="radio-option" onclick="selectRadio('genre1')">
+                                    <input type="radio" id="genre1" name="elvisStyle" value="country" required>
+                                    <label for="genre1">Country &amp; Americana</label>
                                 </div>
-                                <div class="radio-option" onclick="selectRadio('elvis2')">
-                                    <input type="radio" id="elvis2" name="elvisStyle" value="comeback">
-                                    <label for="elvis2">Comeback Elvis (1968 Black Leather)</label>
+                                <div class="radio-option" onclick="selectRadio('genre2')">
+                                    <input type="radio" id="genre2" name="elvisStyle" value="blues">
+                                    <label for="genre2">Blues &amp; Soul</label>
                                 </div>
-                                <div class="radio-option" onclick="selectRadio('elvis3')">
-                                    <input type="radio" id="elvis3" name="elvisStyle" value="jumpsuit">
-                                    <label for="elvis3">Jumpsuit Elvis (1970s Vegas)</label>
+                                <div class="radio-option" onclick="selectRadio('genre3')">
+                                    <input type="radio" id="genre3" name="elvisStyle" value="indie">
+                                    <label for="genre3">Indie &amp; Alternative</label>
+                                </div>
+                                <div class="radio-option" onclick="selectRadio('genre4')">
+                                    <input type="radio" id="genre4" name="elvisStyle" value="tejano">
+                                    <label for="genre4">Tejano &amp; Latin</label>
                                 </div>
                             </div>
                         </div>
@@ -569,13 +578,13 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Number of Guests</label>
+                            <label>Expected Audience Size</label>
                             <input type="number" name="guests" min="2" placeholder="e.g., 200">
                         </div>
 
                         <div class="form-group full-width">
                             <label>Special Requests or Questions</label>
-                            <textarea name="requests" placeholder="Tell us about your vision for the event..."></textarea>
+                            <textarea name="requests" placeholder="Tell us about your event and the vibe you're going for..."></textarea>
                         </div>
                     </div>
 
@@ -588,11 +597,11 @@
     <!-- Footer -->
     <footer>
         <div class="footer-content">
-            <p><strong>Vegas Elvis Weddings</strong></p>
-            <p>123 Las Vegas Blvd, Las Vegas, NV 89109</p>
-            <p>Phone: (702) 555-0199 | Email: info@vegaselvisweddings.com</p>
+            <p><strong>Red River Sound Co.</strong></p>
+            <p>615 Red River St, Austin, TX 78701</p>
+            <p>Phone: (512) 555-0199 | Email: info@redriversound.com</p>
             <p style="margin-top: 20px; font-size: 12px;">
-                Demo website for Cisco Live 2026 presentation
+                Demo website for Wx1 2026 presentation
             </p>
         </div>
     </footer>
@@ -609,18 +618,18 @@
             altFormat: "F j, Y",
             theme: "light"
         });
-    
+
         function selectRadio(radioId) {
             const radio = document.getElementById(radioId);
             radio.checked = true;
-            
+
             document.querySelectorAll(`input[name="${radio.name}"]`).forEach(r => {
                 r.closest('.radio-option').classList.remove('selected');
             });
-            
+
             radio.closest('.radio-option').classList.add('selected');
         }
-    
+
         document.getElementById('bookingForm').addEventListener('submit', function(e) {
             e.preventDefault();
             console.log('[WxCC] Booking form submitted');
@@ -645,11 +654,11 @@
             // here — WxCC Agent Desktop screen-pops it once an agent accepts the task.
             const qs = '?' + params.toString();
             window.open('crm-lead.html' + qs, '_blank');
-            
+
             // Show success message
             document.getElementById('successMessage').style.display = 'block';
             window.scrollTo({ top: document.getElementById('booking').offsetTop - 100, behavior: 'smooth' });
-            
+
             setTimeout(() => {
                 this.reset();
                 document.getElementById('successMessage').style.display = 'none';
@@ -658,7 +667,7 @@
                 });
             }, 3000);
         });
-    
+
         document.querySelectorAll('input[type="radio"]').forEach(radio => {
             radio.addEventListener('change', function() {
                 selectRadio(this.id);

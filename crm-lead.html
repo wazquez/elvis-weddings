@@ -360,12 +360,12 @@
                         </div>
 
                         <div class="form-field">
-                            <div class="field-label">Elvis Style Preference</div>
-                            <div class="field-value" id="leadElvisStyle">-</div>
+                            <div class="field-label">Genre Preference</div>
+                            <div class="field-value" id="leadGenre">-</div>
                         </div>
 
                         <div class="form-field">
-                            <div class="field-label">Number of Guests</div>
+                            <div class="field-label">Expected Audience Size</div>
                             <div class="field-value" id="leadGuests">-</div>
                         </div>
 
@@ -441,31 +441,33 @@
             
             // Package name
             const packageNames = {
-                'classic': 'Classic Quickie',
-                'deluxe': 'Deluxe Experience',
-                'corporate': 'Corporate Events'
+                'solo': 'Solo Acoustic',
+                'trio': 'Trio Package',
+                'fullband': 'Full Band & Production'
             };
             const packageValue = params.get('package');
             console.log('[WxCC] Package selected:', packageNames[packageValue] || '(unknown)');
             document.getElementById('leadPackage').textContent = packageNames[packageValue] || '-';
-            
+
             // Package value
             const packageValues = {
-                'classic': '$299',
-                'deluxe': '$999',
-                'corporate': '$4,999'
+                'solo': '$299',
+                'trio': '$999',
+                'fullband': '$4,999'
             };
             console.log('[WxCC] Deal value:', packageValues[packageValue] || 'unknown — skill-based routing will treat as standard priority');
             document.getElementById('leadValue').textContent = packageValues[packageValue] || '-';
-            
-            // Elvis style
+
+            // Genre preference (still carried in the `elvisStyle` URL param/field name
+            // for wire compatibility with the BE and Cisco's Task Routing API)
             const elvisStyles = {
-                'young': 'Young Elvis (1950s Rockabilly)',
-                'comeback': 'Comeback Elvis (1968 Black Leather)',
-                'jumpsuit': 'Jumpsuit Elvis (1970s Vegas)'
+                'country': 'Country & Americana',
+                'blues': 'Blues & Soul',
+                'indie': 'Indie & Alternative',
+                'tejano': 'Tejano & Latin'
             };
             const elvisStyle = params.get('elvisStyle');
-            document.getElementById('leadElvisStyle').textContent = elvisStyles[elvisStyle] || '-';
+            document.getElementById('leadGenre').textContent = elvisStyles[elvisStyle] || '-';
             
             document.getElementById('leadGuests').textContent = params.get('guests') || '-';
             
@@ -490,7 +492,7 @@
                 const today = new Date();
                 // Parse YYYY-MM-DD in LOCAL time. `new Date("2026-05-22")` parses as
                 // UTC midnight, which is the previous day in any timezone west of UTC
-                // (Vegas demo: Pacific = UTC-7, so it'd always read as yesterday).
+                // (Austin demo: Central = UTC-5/-6, so it'd always read as yesterday).
                 const [y, m, d] = preferredDate.split('-').map(Number);
                 const selectedDate = new Date(y, m - 1, d);
 
@@ -535,14 +537,15 @@
         function buildRoutingPayload() {
             const params = new URLSearchParams(window.location.search);
             const packageNames = {
-                'classic': 'Classic Quickie',
-                'deluxe': 'Deluxe Experience',
-                'corporate': 'Corporate Events'
+                'solo': 'Solo Acoustic',
+                'trio': 'Trio Package',
+                'fullband': 'Full Band & Production'
             };
             const elvisStyles = {
-                'young': 'Young Elvis (1950s Rockabilly)',
-                'comeback': 'Comeback Elvis (1968 Black Leather)',
-                'jumpsuit': 'Jumpsuit Elvis (1970s Vegas)'
+                'country': 'Country & Americana',
+                'blues': 'Blues & Soul',
+                'indie': 'Indie & Alternative',
+                'tejano': 'Tejano & Latin'
             };
             return {
                 name: params.get('name') || '',
