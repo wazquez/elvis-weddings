@@ -624,7 +624,9 @@
                 const body = await res.json().catch(() => null);
                 if (!res.ok) {
                     console.error('[WxCC] Routing API returned ' + res.status, body);
-                    showError('Failed to create task (' + res.status + '). Check console for details.');
+                    showError(res.status === 429
+                        ? 'Too many requests right now. Please wait a minute and reload this page to try again.'
+                        : 'Failed to create task (' + res.status + '). Check console for details.');
                     return;
                 }
                 console.log('[WxCC] ' + res.status + ' ' + res.statusText, body);
