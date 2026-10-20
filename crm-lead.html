@@ -555,9 +555,8 @@
                 elvisStyle: elvisStyles[params.get('elvisStyle')] || params.get('elvisStyle') || '',
                 date: toDDMMYYYY(params.get('date')),
                 guests: params.get('guests') || '',
-                requests: params.get('requests') || '',
-                destinationId: params.get('destinationId') || 'Wx12026',
-                channel: params.get('channel') || 'CRM'
+                requests: params.get('requests') || ''
+                // destinationId/channel are fixed on the BE, not sent from here
             };
         }
 
