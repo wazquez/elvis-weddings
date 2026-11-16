@@ -546,7 +546,7 @@
                         </div>
 
                         <div class="form-field">
-                            <div class="field-label">Genre</div>
+                            <div class="field-label">Fado Style</div>
                             <div class="field-value" id="taskLeadGenre">-</div>
                         </div>
 
@@ -567,8 +567,8 @@
                                     </svg>
                                 </div>
                                 <div class="checklist-text">
-                                    <div class="checklist-title">Venue / Stage Availability</div>
-                                    <div class="checklist-subtitle">Check stage and backline setup availability for event date</div>
+                                    <div class="checklist-title">Venue / Casa de Fados Availability</div>
+                                    <div class="checklist-subtitle">Check casa de fados or private venue availability for event date</div>
                                 </div>
                             </div>
 
@@ -579,8 +579,8 @@
                                     </svg>
                                 </div>
                                 <div class="checklist-text">
-                                    <div class="checklist-title">Band Availability - Full Band Tier</div>
-                                    <div class="checklist-subtitle" id="subtitleBand">Confirm full-band tier availability for the event</div>
+                                    <div class="checklist-title">Fadista & Musicians</div>
+                                    <div class="checklist-subtitle" id="subtitleBand">Confirm fadista, Portuguese guitar and classical guitar availability</div>
                                 </div>
                             </div>
 
@@ -591,8 +591,8 @@
                                     </svg>
                                 </div>
                                 <div class="checklist-text">
-                                    <div class="checklist-title">Sound Engineer</div>
-                                    <div class="checklist-subtitle">Reserve dedicated sound engineer for the performance</div>
+                                    <div class="checklist-title">Sound Technician</div>
+                                    <div class="checklist-subtitle">Reserve acoustic sound technician (fado is performed in near-silence, minimal amplification)</div>
                                 </div>
                             </div>
 
@@ -603,8 +603,8 @@
                                     </svg>
                                 </div>
                                 <div class="checklist-text">
-                                    <div class="checklist-title">Lighting & AV Technician</div>
-                                    <div class="checklist-subtitle" id="subtitleLighting">Book lighting & AV technician with large event experience</div>
+                                    <div class="checklist-title">Ambience & Lighting</div>
+                                    <div class="checklist-subtitle" id="subtitleLighting">Arrange candlelight / low-light fado ambience for the room</div>
                                 </div>
                             </div>
 
@@ -615,8 +615,8 @@
                                     </svg>
                                 </div>
                                 <div class="checklist-text">
-                                    <div class="checklist-title">Catering Services</div>
-                                    <div class="checklist-subtitle" id="subtitleCatering">Confirm catering capacity on event date</div>
+                                    <div class="checklist-title">Dinner & Wine Service</div>
+                                    <div class="checklist-subtitle" id="subtitleCatering">Confirm Portuguese set menu and wine pairing capacity on event date</div>
                                 </div>
                             </div>
                         </div>
@@ -699,18 +699,18 @@
             document.getElementById('taskLeadPhone').textContent = params.get('phone') || '-';
             
             const packageNames = {
-                'solo': 'Solo Acoustic',
-                'trio': 'Trio Package',
-                'fullband': 'Full Band & Production'
+                'tasca': 'Fado Tasca Night',
+                'jantar': 'Fado & Dinner',
+                'privado': 'Private Fado Show'
             };
             const rawPackage = params.get('package');
             const packageKey = (rawPackage || '').toLowerCase();
             document.getElementById('taskLeadPackage').textContent = packageNames[packageKey] || rawPackage || '-';
 
             const packageValues = {
-                'solo': '$299',
-                'trio': '$999',
-                'fullband': '$4,999'
+                'tasca': '€149',
+                'jantar': '€449',
+                'privado': '€2,499'
             };
             document.getElementById('taskLeadValue').textContent = packageValues[packageKey] || '-';
 
@@ -723,20 +723,20 @@
             if (!isNaN(guests) && guests > 0) {
                 const scale = guests >= 200 ? 'large' : 'standard';
                 document.getElementById('subtitleBand').textContent =
-                    `Confirm band availability for ${guests}-guest event`;
+                    `Confirm fadista and guitarists availability for ${guests}-guest event`;
                 document.getElementById('subtitleLighting').textContent =
-                    `Book lighting & AV technician with ${scale} event experience (${guests} guests)`;
+                    `Arrange candlelight / low-light fado ambience for a ${scale} room (${guests} guests)`;
                 document.getElementById('subtitleCatering').textContent =
-                    `Confirm catering capacity for ${guests} guests on event date`;
+                    `Confirm set menu and wine capacity for ${guests} guests on event date`;
             }
 
             // Genre preference (still carried in the `elvisStyle` URL param/field name
             // for wire compatibility with the BE and Cisco's Task Routing API)
             const elvisStyles = {
-                'country': 'Country & Americana',
-                'blues': 'Blues & Soul',
-                'indie': 'Indie & Alternative',
-                'tejano': 'Tejano & Latin'
+                'lisboa': 'Fado de Lisboa (Traditional)',
+                'coimbra': 'Fado de Coimbra',
+                'vadio': 'Fado Vadio (Casual / Open Mic)',
+                'moderno': 'Fado Moderno (Contemporary)'
             };
             const rawElvis = params.get('elvisStyle');
             const elvisKey = (rawElvis || '').toLowerCase();
@@ -751,7 +751,7 @@
                 const parsed = new Date(preferredDate);
                 if (!isNaN(parsed)) {
                     const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                    calendarDateEl.textContent = parsed.toLocaleDateString('en-US', opts);
+                    calendarDateEl.textContent = parsed.toLocaleDateString('en-GB', opts);
                 } else {
                     calendarDateEl.textContent = preferredDate;
                 }

@@ -360,7 +360,7 @@
                         </div>
 
                         <div class="form-field">
-                            <div class="field-label">Genre Preference</div>
+                            <div class="field-label">Fado Style</div>
                             <div class="field-value" id="leadGenre">-</div>
                         </div>
 
@@ -441,9 +441,9 @@
             
             // Package name
             const packageNames = {
-                'solo': 'Solo Acoustic',
-                'trio': 'Trio Package',
-                'fullband': 'Full Band & Production'
+                'tasca': 'Fado Tasca Night',
+                'jantar': 'Fado & Dinner',
+                'privado': 'Private Fado Show'
             };
             const packageValue = params.get('package');
             console.log('[WxCC] Package selected:', packageNames[packageValue] || '(unknown)');
@@ -451,9 +451,9 @@
 
             // Package value
             const packageValues = {
-                'solo': '$299',
-                'trio': '$999',
-                'fullband': '$4,999'
+                'tasca': '€149',
+                'jantar': '€449',
+                'privado': '€2,499'
             };
             console.log('[WxCC] Deal value:', packageValues[packageValue] || 'unknown — skill-based routing will treat as standard priority');
             document.getElementById('leadValue').textContent = packageValues[packageValue] || '-';
@@ -461,10 +461,10 @@
             // Genre preference (still carried in the `elvisStyle` URL param/field name
             // for wire compatibility with the BE and Cisco's Task Routing API)
             const elvisStyles = {
-                'country': 'Country & Americana',
-                'blues': 'Blues & Soul',
-                'indie': 'Indie & Alternative',
-                'tejano': 'Tejano & Latin'
+                'lisboa': 'Fado de Lisboa (Traditional)',
+                'coimbra': 'Fado de Coimbra',
+                'vadio': 'Fado Vadio (Casual / Open Mic)',
+                'moderno': 'Fado Moderno (Contemporary)'
             };
             const elvisStyle = params.get('elvisStyle');
             document.getElementById('leadGenre').textContent = elvisStyles[elvisStyle] || '-';
@@ -479,7 +479,7 @@
             // Set current timestamp
             const now = new Date();
             const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-            const timestamp = now.toLocaleDateString('en-US', options);
+            const timestamp = now.toLocaleDateString('en-GB', options);
             const timestampEl = document.getElementById('leadTimestamp');
             timestampEl.textContent = '';
             const labelSpan = document.createElement('span');
@@ -492,7 +492,7 @@
                 const today = new Date();
                 // Parse YYYY-MM-DD in LOCAL time. `new Date("2026-05-22")` parses as
                 // UTC midnight, which is the previous day in any timezone west of UTC
-                // (Austin demo: Central = UTC-5/-6, so it'd always read as yesterday).
+                // (any viewer west of UTC, e.g. a demo run from the US, would see the wrong day).
                 const [y, m, d] = preferredDate.split('-').map(Number);
                 const selectedDate = new Date(y, m - 1, d);
 
@@ -537,15 +537,15 @@
         function buildRoutingPayload() {
             const params = new URLSearchParams(window.location.search);
             const packageNames = {
-                'solo': 'Solo Acoustic',
-                'trio': 'Trio Package',
-                'fullband': 'Full Band & Production'
+                'tasca': 'Fado Tasca Night',
+                'jantar': 'Fado & Dinner',
+                'privado': 'Private Fado Show'
             };
             const elvisStyles = {
-                'country': 'Country & Americana',
-                'blues': 'Blues & Soul',
-                'indie': 'Indie & Alternative',
-                'tejano': 'Tejano & Latin'
+                'lisboa': 'Fado de Lisboa (Traditional)',
+                'coimbra': 'Fado de Coimbra',
+                'vadio': 'Fado Vadio (Casual / Open Mic)',
+                'moderno': 'Fado Moderno (Contemporary)'
             };
             return {
                 name: params.get('name') || '',
